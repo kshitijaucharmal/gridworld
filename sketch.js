@@ -13,7 +13,7 @@ let learning_rate;
 let discount;
 
 let q_table = [];
-let n_episodes = 2000;
+let n_episodes;
 let episode = 1;
 let observation;
 
@@ -41,6 +41,7 @@ function setup(){
 
     learning_rate = parseFloat(f.lr.value);
     discount = parseFloat(f.d.value);
+    n_episodes = parseInt(f.n_episodes.value);
 
     player = new Player();
     observation = player.reset();
