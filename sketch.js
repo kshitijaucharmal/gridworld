@@ -47,7 +47,7 @@ function setup(){
 
     for(let i = 0; i < n_states; i++){
         for(let j = 0; j < n_actions; j++){
-            q_table[i, j] = random(-2, 2);
+            q_table[i][j] = random(-2, 2);
         }
     }
 }
@@ -120,9 +120,9 @@ function Q_Learning(){
     }
 
     let max_future_q = Math.max(q_table[new_state])
-    let current_q = q_table[observation, action];
+    let current_q = q_table[observation][action];
     let new_q = (1 - learning_rate) * current_q + learning_rate * (reward + discount * max_future_q);
-    q_table[observation, action] = new_q;
+    q_table[observation][action] = new_q;
 
     observation = new_state;
 }
