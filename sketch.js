@@ -46,9 +46,11 @@ function setup(){
     observation = player.reset();
 
     for(let i = 0; i < n_states; i++){
+        let a = [];
         for(let j = 0; j < n_actions; j++){
-            q_table[i][j] = random(-2, 2);
+            a.push(random(-2, 2));
         }
+        q_table.push(a);
     }
 }
 
