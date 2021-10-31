@@ -107,7 +107,12 @@ function draw(){
 }
 
 function Q_Learning(){
-    let action = argmax(q_table[observation]); // random action for now
+    let action;
+    if(random(1) < 0.5){
+        action = int(random(4));
+    }
+    else
+        action = argmax(q_table[observation]); // random action for now
     let step = player.step(action);
     // console.log(step[0], step[1], step[2]);
 
