@@ -15,7 +15,7 @@ let discount;
 let q_table = [];
 let n_episodes = 2000;
 let episode = 1;
-let state;
+let observation;
 
 const State = {
     TRAIN : 0,
@@ -43,7 +43,7 @@ function setup(){
     discount = parseFloat(f.d.value);
 
     player = new Player();
-    state = player.reset();
+    observation = player.reset();
 
     for(let i = 0; i < n_states; i++){
         for(let j = 0; j < n_actions; j++){
@@ -105,7 +105,7 @@ function draw(){
 }
 
 function Q_Learning(){
-    let action = int(random(4)); // random action for now
+    let action = argmax(q_table[observation]); // random action for now
     let step = player.step(action);
     console.log(step[0], step[1], step[2]);
 
@@ -115,16 +115,28 @@ function Q_Learning(){
 
     if(done){
         episode++;
-        state = player.reset();
+        observation = player.reset();
         console.log("Episode : " + episode + " done");
     }
 
     let max_future_q = Math.max(q_table[new_state])
-    let current_q = q_table[state, action];
+    let current_q = q_table[observation, action];
     let new_q = (1 - learning_rate) * current_q + learning_rate * (reward + discount * max_future_q);
-    q_table[state, action] = new_q;
+    q_table[observation, action] = new_q;
 
-    state = new_state;
+    observation = new_state;
+}
+
+function argmax(arr){
+    let max = -10000;
+    let arg = -1;
+    for(let i = 0; i < arr.length; i++){
+        if(arr[i] > max){
+            max = arr[i];
+            arg = i;
+        }
+    }
+    return arg;
 }
 
 function keyPressed(){
