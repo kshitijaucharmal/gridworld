@@ -67,7 +67,7 @@ class Player{
                 this.state += rows;
                 break;
             default:
-                console.log("Wrong Direction Entered");
+                console.log("Wrong Direction Entered" + dir);
         }
         return this.state
     }
