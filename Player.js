@@ -13,6 +13,11 @@ class Player{
         pop();
     }
 
+    reset(){
+        this.state = int(random(n_states-1));
+        return this.state;
+    }
+
     update(){
         this.pos = this.get_pos_from_state(this.state);
     }

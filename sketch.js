@@ -4,12 +4,18 @@ let offset;
 let rows, cols;
 let player;
 let n_states;
+let n_actions = 4;
 let heuristic = false;
 let finish_point;
 let start_point = 0;
 
 let learning_rate;
 let discount;
+
+let q_table = [];
+let n_episodes = 2000;
+let episode = 1;
+let state;
 
 const State = {
     TRAIN : 0,
@@ -37,6 +43,13 @@ function setup(){
     discount = parseFloat(f.d.value);
 
     player = new Player();
+    state = player.reset();
+
+    for(let i = 0; i < n_states, i++){
+        for(let j = 0; j < n_actions; j++){
+            q[i, j] = random(-2, 2);
+        }
+    }
 }
 
 function draw(){
@@ -54,9 +67,11 @@ function draw(){
     switch(state){
         case State.TRAIN:
             // player
-            if(!heuristic)
-                player.step(int(random(4)));
-            else{
+            if(!heuristic){ // the ai is solving
+                // player.step(int(random(4)));
+                Q_Learning();
+            }
+            else{ // the user is playing
                 player.update();
                 player.show();
             }
@@ -89,12 +104,36 @@ function draw(){
     }
 }
 
+function Q_Learning(){
+    let action = int(random(4)); // random action for now
+    let step = player.step(action);
+    console.log(step[0], step[1], step[2]);
+
+    let new_state = step[0];
+    let reward = step[1];
+    let done = step[2];
+
+    if(done){
+        episode++;
+        state = player.reset();
+        console.log("Episode : " + episode + " done");
+    }
+
+    let max_future_q = Math.max(q_table[new_state])
+    let current_q = q_table[state, action];
+    let new_q = (1 - learning_rate) * current_q + learning_rate * (reward + discount * max_future_q);
+    q_table[state, action] = new_q;
+
+    state = new_state;
+}
+
 function keyPressed(){
     if(!heuristic) return;
     if(keyCode == UP_ARROW) player.step(0);
     if(keyCode == DOWN_ARROW) player.step(1);
     if(keyCode == LEFT_ARROW) player.step(2);
     if(keyCode == RIGHT_ARROW) player.step(3);
+    if(key == ' ') state = State.PAUSED;
 }
 
 function draw_grid(){
