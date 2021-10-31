@@ -109,7 +109,7 @@ function draw(){
 function Q_Learning(){
     let action = argmax(q_table[observation]); // random action for now
     let step = player.step(action);
-    console.log(step[0], step[1], step[2]);
+    // console.log(step[0], step[1], step[2]);
 
     let new_state = step[0];
     let reward = step[1];
