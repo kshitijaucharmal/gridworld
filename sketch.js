@@ -45,7 +45,7 @@ function setup(){
     player = new Player();
     state = player.reset();
 
-    for(let i = 0; i < n_states, i++){
+    for(let i = 0; i < n_states; i++){
         for(let j = 0; j < n_actions; j++){
             q[i, j] = random(-2, 2);
         }
